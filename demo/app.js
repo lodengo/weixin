@@ -1,7 +1,16 @@
+var weixin = require('../index');
 
-var weixin = require('../index')
-, http = require('http');;
+var express = require('express');
+var app = express();
 
-var app = weixin();
+var weixinConfig = {
+		token: 'token',
+		appid: 'appid',
+		secret: 'secret'
+};
 
-http.createServer(app).listen(3000);
+app.use('/', weixin.checkSignature(weixinConfig));
+app.use('/', weixin.msgParser());
+//app.use('/weixin', weixin.);
+
+app.listen(80);
